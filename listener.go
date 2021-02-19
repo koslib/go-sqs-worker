@@ -1,4 +1,4 @@
-package go_sqs
+package sqsworker
 
 import (
 	"log"

@@ -1,4 +1,4 @@
-module github.com/koslib/go-sqs
+module github.com/koslib/go-sqs-worker
 
 go 1.15
 

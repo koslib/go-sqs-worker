@@ -1,4 +1,4 @@
-package go_sqs
+package sqsworker
 
 import (
 	"github.com/aws/aws-sdk-go/aws"
@@ -7,14 +7,14 @@ import (
 
 type Publisher struct {
 	sqs                 *sqs.SQS
-	sqsJobUrl           string
+	sqsQueueUrl         string
 	messageDelaySeconds int64
 }
 
-func NewPublisher(sqs *sqs.SQS, jobUrl string, msgDelaySec int64) *Publisher {
+func NewPublisher(sqs *sqs.SQS, queueUrl string, msgDelaySec int64) *Publisher {
 	return &Publisher{
 		sqs:                 sqs,
-		sqsJobUrl:           jobUrl,
+		sqsQueueUrl:         queueUrl,
 		messageDelaySeconds: msgDelaySec,
 	}
 }
@@ -24,7 +24,7 @@ func (p *Publisher) PublishMessage(payload string, msgAttributes map[string]*sqs
 		DelaySeconds:      aws.Int64(p.messageDelaySeconds),
 		MessageAttributes: msgAttributes,
 		MessageBody:       aws.String(payload),
-		QueueUrl:          aws.String(p.sqsJobUrl),
+		QueueUrl:          aws.String(p.sqsQueueUrl),
 	})
 	if err != nil {
 		return err
